@@ -21,18 +21,60 @@
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
-- (IBAction)fireAnimation:(id)sender
+- (IBAction)fireCurve:(id)sender
 {
+    [self.hintAnimation cleanAnimation];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
                                                                  withFont:[UIFont boldSystemFontOfSize:22]
                                                               beginningAt:CGPointMake(40, -200)
-                                                             displayingAt:CGPointMake(40, self.view.center.y)
+                                                             displayingAt:CGPointMake(40, 150)
                                                                  endingAt:CGPointMake(40, self.view.frame.size.height+200)
                                                              inTargetView:self.view];
+    [self.hintAnimation setAnimationType:kMFLAnimationCurvedExplode];
     [self.hintAnimation prepareToRun];
     [self.hintAnimation run];
-    
-    
+}
+
+- (IBAction)fireExplode:(id)sender
+{
+    [self.hintAnimation cleanAnimation];
+    self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
+                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                              beginningAt:CGPointMake(40, -200)
+                                                             displayingAt:CGPointMake(40, 150)
+                                                                 endingAt:CGPointMake(40, self.view.frame.size.height+200)
+                                                             inTargetView:self.view];
+    [self.hintAnimation setAnimationType:kMFLAnimationExplode];
+    [self.hintAnimation prepareToRun];
+    [self.hintAnimation run];
+}
+
+- (IBAction)fireLinear:(id)sender
+{
+    [self.hintAnimation cleanAnimation];
+    self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
+                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                              beginningAt:CGPointMake(40, -200)
+                                                             displayingAt:CGPointMake(40, 150)
+                                                                 endingAt:CGPointMake(40, self.view.frame.size.height+200)
+                                                             inTargetView:self.view];
+    [self.hintAnimation setAnimationType:kMFLAnimationLinear];
+    [self.hintAnimation prepareToRun];
+    [self.hintAnimation run];
+}
+
+- (IBAction)fireImplode:(id)sender
+{
+    [self.hintAnimation cleanAnimation];
+    self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
+                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                              beginningAt:CGPointMake(40, 150)
+                                                             displayingAt:CGPointMake(40, 150)
+                                                                 endingAt:CGPointMake(40, self.view.frame.size.height+200)
+                                                             inTargetView:self.view];
+    [self.hintAnimation setAnimationType:kMFLAnimationImplode];
+    [self.hintAnimation prepareToRun];
+    [self.hintAnimation run];
 }
 
 - (void)didReceiveMemoryWarning

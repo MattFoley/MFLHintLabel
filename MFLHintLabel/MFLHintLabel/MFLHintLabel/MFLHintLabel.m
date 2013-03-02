@@ -70,7 +70,7 @@
 
 - (void)setDefaultProperties
 {
-    _animationType = kMFLAnimationExplode;
+    _animationType = kMFLAnimationCurvedExplode;
     _duration = .5;
     _displayTime = 2;
     _widthConstraint = CGRectGetWidth(_targetView.bounds) - 60;
@@ -225,7 +225,7 @@
         
         if (phaseCount == 3) {
             phaseCount = 0;
-            waitTime+= .15;
+            waitTime+= .05;
         }
     }
     return waitTime;
@@ -260,28 +260,24 @@
         if (arc4random()%2) {
             offsetPoint = CGPointMake(-offsetPoint.x, -offsetPoint.y);
         }
+        CGPoint originalPoint = character.center;
         
         [UIView animateWithDuration:self.duration
                               delay:waitTime
-                            options:self.options
+                            options:self.options | UIViewAnimationOptionAutoreverse
                          animations:^{
                              
                              character.center = offsetPoint;
                              
                          } completion:^(BOOL finished) {
                              
-                             
+                             character.center = originalPoint;
                              
                          }];
         
         [unmovedArray removeObject:character];
         
         phaseCount++;
-        
-        if (phaseCount == 10) {
-            phaseCount = 0;
-            waitTime+= .15;
-        }
     }
     return waitTime;
 }
@@ -341,6 +337,65 @@
     return waitTime;
 }
 
+
+- (CGFloat)explodeToExitWithCurve
+{
+    NSMutableArray *unmovedArray = [@[] mutableCopy];
+    
+    for (NSArray *array in self.labelArray) { [unmovedArray addObjectsFromArray:array]; }
+    
+    
+    
+    int phaseCount = 0;
+    CGFloat waitTime = 0;
+    
+    while (unmovedArray.count) {
+        
+        UILabel *character = unmovedArray[arc4random()%unmovedArray.count];
+        
+        CGRect containingRect =CGRectInset(self.targetView.frame,
+                                           -character.frame.size.width,
+                                           -character.frame.size.height);
+        
+        UIBezierPath *curvePath = [UIBezierPath bezierPath];
+        [curvePath moveToPoint:character.center];
+        
+        CGPoint offsetPoint;
+        
+        if (character.center.x < self.targetView.center.x) {
+            offsetPoint = CGPointMake(character.center.x/2,
+                                      containingRect.size.height);
+            [curvePath addQuadCurveToPoint:offsetPoint
+                              controlPoint:CGPointMake(character.center.x/4, 0)];
+        }else{
+            offsetPoint = CGPointMake(containingRect.size.width-character.center.x/2,
+                                      containingRect.size.height);
+            [curvePath addQuadCurveToPoint:offsetPoint
+                              controlPoint:CGPointMake(self.targetView.frame.size.width - character.center.x/4, 0)];
+        }
+        
+        CAKeyframeAnimation *moveAnim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        moveAnim.path = curvePath.CGPath;
+        moveAnim.duration = self.duration;
+        moveAnim.fillMode = kCAFillModeForwards;
+        moveAnim.beginTime = CACurrentMediaTime() + waitTime;
+        moveAnim.removedOnCompletion = NO;
+        
+        [character.layer addAnimation:moveAnim forKey:@"stuff"];
+        
+        [unmovedArray removeObject:character];
+        
+        phaseCount++;
+        
+        if (phaseCount == 2) {
+            phaseCount = 0;
+            waitTime+= .05;
+        }
+    }
+    return waitTime;
+}
+
+
 - (CGFloat)animateToDisplayPosition
 {
     CGFloat waitTime = 0.5;
@@ -354,6 +409,7 @@
             
         case kMFLAnimationCurvedExplode:
         {
+            waitTime = [self animateToPosition:self.displayPosition fromPoint:self.startPosition];
             break;
         }
             
@@ -388,6 +444,7 @@
             
         case kMFLAnimationCurvedExplode:
         {
+            [self explodeToExitWithCurve];
             break;
         }
             
@@ -399,7 +456,7 @@
             
         case kMFLAnimationImplode:
         {
-            waitTime = [self animateToPosition:self.displayPosition];
+            //waitTime = [self animateToPosition:self.displayPosition];
             break;
         }
         default:

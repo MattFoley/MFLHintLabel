@@ -48,6 +48,7 @@ typedef enum {
 - (void)run;
 - (void)stop;
 - (void)prepareToRun;
+- (void)cleanAnimation;
 
 - (MFLHintLabel *)createHintAnimationForText:(NSString*)text
                                     withFont:(UIFont*)font
