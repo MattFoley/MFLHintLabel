@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		373F641D16E051D800AEAE70 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373F641C16E051D800AEAE70 /* CoreText.framework */; };
+		379999E316E2696B00488FB1 /* MFLBezierHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 379999E216E2696B00488FB1 /* MFLBezierHelper.m */; };
+		379999E616E286BA00488FB1 /* buttons_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 379999E416E286BA00488FB1 /* buttons_btn.png */; };
+		379999E716E286BA00488FB1 /* buttons_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 379999E516E286BA00488FB1 /* buttons_btn@2x.png */; };
 		37ADBEE916DED11F0077ADFF /* MFLHintLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 37ADBEE816DED11F0077ADFF /* MFLHintLabel.m */; };
 		37ADBEEB16DED3830077ADFF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37ADBEEA16DED3830077ADFF /* QuartzCore.framework */; };
 		37ADBEEE16DEDEA20077ADFF /* UILabel+Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = 37ADBEED16DEDEA20077ADFF /* UILabel+Lines.m */; };
@@ -26,6 +29,10 @@
 
 /* Begin PBXFileReference section */
 		373F641C16E051D800AEAE70 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		379999E116E2696B00488FB1 /* MFLBezierHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFLBezierHelper.h; sourceTree = "<group>"; };
+		379999E216E2696B00488FB1 /* MFLBezierHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFLBezierHelper.m; sourceTree = "<group>"; };
+		379999E416E286BA00488FB1 /* buttons_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttons_btn.png; sourceTree = "<group>"; };
+		379999E516E286BA00488FB1 /* buttons_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttons_btn@2x.png"; sourceTree = "<group>"; };
 		37ADBEE716DED11F0077ADFF /* MFLHintLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFLHintLabel.h; path = MFLHintLabel/MFLHintLabel.h; sourceTree = "<group>"; };
 		37ADBEE816DED11F0077ADFF /* MFLHintLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFLHintLabel.m; path = MFLHintLabel/MFLHintLabel.m; sourceTree = "<group>"; };
 		37ADBEEA16DED3830077ADFF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -65,6 +72,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		379999D316E267AD00488FB1 /* wykobi */ = {
+			isa = PBXGroup;
+			children = (
+				379999E116E2696B00488FB1 /* MFLBezierHelper.h */,
+				379999E216E2696B00488FB1 /* MFLBezierHelper.m */,
+			);
+			name = wykobi;
+			sourceTree = "<group>";
+		};
 		37ADBEE616DED1040077ADFF /* MFLHintLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +124,7 @@
 		37DAA2AB16DC85390032A1CA /* MFLHintLabel */ = {
 			isa = PBXGroup;
 			children = (
+				379999D316E267AD00488FB1 /* wykobi */,
 				37ADBEE616DED1040077ADFF /* MFLHintLabel */,
 				37DAA2B416DC85390032A1CA /* MFLAppDelegate.h */,
 				37DAA2B516DC85390032A1CA /* MFLAppDelegate.m */,
@@ -126,6 +143,8 @@
 				37DAA2AE16DC85390032A1CA /* InfoPlist.strings */,
 				37DAA2B116DC85390032A1CA /* main.m */,
 				37DAA2B316DC85390032A1CA /* MFLHintLabel-Prefix.pch */,
+				379999E416E286BA00488FB1 /* buttons_btn.png */,
+				379999E516E286BA00488FB1 /* buttons_btn@2x.png */,
 				37DAA2B716DC85390032A1CA /* Default.png */,
 				37DAA2B916DC85390032A1CA /* Default@2x.png */,
 				37DAA2BB16DC85390032A1CA /* Default-568h@2x.png */,
@@ -190,6 +209,8 @@
 				37DAA2BA16DC85390032A1CA /* Default@2x.png in Resources */,
 				37DAA2BC16DC85390032A1CA /* Default-568h@2x.png in Resources */,
 				37DAA2C216DC85390032A1CA /* MFLViewController.xib in Resources */,
+				379999E616E286BA00488FB1 /* buttons_btn.png in Resources */,
+				379999E716E286BA00488FB1 /* buttons_btn@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +226,7 @@
 				37DAA2BF16DC85390032A1CA /* MFLViewController.m in Sources */,
 				37ADBEE916DED11F0077ADFF /* MFLHintLabel.m in Sources */,
 				37ADBEEE16DEDEA20077ADFF /* UILabel+Lines.m in Sources */,
+				379999E316E2696B00488FB1 /* MFLBezierHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

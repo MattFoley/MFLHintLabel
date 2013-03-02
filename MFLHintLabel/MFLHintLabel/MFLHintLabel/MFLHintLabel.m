@@ -9,7 +9,19 @@
 #import "MFLHintLabel.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UILabel+Lines.h"
+#import "MFLBezierHelper.h"
 
+@interface MFLHintLabel ()
+@property (nonatomic, assign) NSInteger charactersToMoveSimultaneously;
+@property (nonatomic, assign) BOOL shouldFade;
+@property (nonatomic, assign) CGFloat phaseDelayTime;
+
+@property (nonatomic, strong) UIView *targetView;
+
+@property (nonatomic, strong) NSMutableArray *labelArray;
+@property (nonatomic, strong) NSArray *lineArray;
+
+@end
 @implementation MFLHintLabel
 
 
@@ -70,9 +82,16 @@
 
 - (void)setDefaultProperties
 {
-    _animationType = kMFLAnimationCurvedExplode;
+    _animateOffType = kMFLAnimateOffCurvedExplode;
+    _animateOnType = kMFLAnimateOnLinear;
+    _charactersToMoveSimultaneously = 2;
     _duration = .5;
     _displayTime = 2;
+    _solitareTrailDuration = .1;
+    _solitareTrailLength = 10;
+    _randomizationFactor = 12;
+    
+    _implodeFrameFactor = 1;
     _widthConstraint = CGRectGetWidth(_targetView.bounds) - 60;
 }
 
@@ -183,9 +202,9 @@
         
         phaseCount++;
         
-        if (phaseCount == 3) {
+        if (phaseCount == self.charactersToMoveSimultaneously) {
             phaseCount = 0;
-            waitTime+= .15;
+            waitTime+= self.phaseDelayTime;
         }
     }
     return waitTime;
@@ -223,9 +242,9 @@
         
         phaseCount++;
         
-        if (phaseCount == 3) {
+        if (phaseCount == self.charactersToMoveSimultaneously) {
             phaseCount = 0;
-            waitTime+= .05;
+            waitTime+= self.phaseDelayTime;
         }
     }
     return waitTime;
@@ -242,24 +261,40 @@
     int phaseCount = 0;
     CGFloat waitTime = 0;
     
+    CGRect containingRect;
+    if (CGRectEqualToRect(CGRectZero,self.implodeWithinFrame)) {
+        CGRect growingRect;
+        
+        for (UILabel *label in unmovedArray) {
+            if (label == unmovedArray[0]) {
+                growingRect.origin = label.frame.origin;
+            }
+            growingRect = CGRectUnion(growingRect, label.frame);
+        }
+        
+        containingRect = CGRectInset(growingRect,
+                                     -(growingRect.size.width * (self.implodeFrameFactor-1)),
+                                     -(growingRect.size.height * (self.implodeFrameFactor-1)));
+        
+    }else{
+        containingRect = self.implodeWithinFrame;
+    }
+    
     while (unmovedArray.count) {
         
         UILabel*character = unmovedArray[arc4random()%unmovedArray.count];
         
-        CGRect containingRect =CGRectInset(self.targetView.frame,
-                                           -character.frame.size.width,
-                                           -character.frame.size.height);
         CGPoint offsetPoint;
         
         do {
-            offsetPoint = CGPointMake(arc4random()%lrintf(containingRect.size.width*2),
-                                      arc4random()%lrintf(containingRect.size.height*2));
+            offsetPoint = CGPointMake(arc4random()%lrintf(containingRect.size.width),
+                                      arc4random()%lrintf(containingRect.size.height));
+            
+            offsetPoint = CGPointMake(containingRect.origin.x + offsetPoint.x,
+                                      containingRect.origin.y + offsetPoint.y);
             
         } while (!CGRectContainsPoint(containingRect, offsetPoint));
         
-        if (arc4random()%2) {
-            offsetPoint = CGPointMake(-offsetPoint.x, -offsetPoint.y);
-        }
         CGPoint originalPoint = character.center;
         
         [UIView animateWithDuration:self.duration
@@ -282,13 +317,126 @@
     return waitTime;
 }
 
-- (CGFloat)explodeToExit
+
+- (CGFloat)implodeOntoScreen
+{
+    CGFloat xOffset = self.displayPosition.x;
+    CGFloat yOffset = self.displayPosition.y;
+    CGFloat waitTime = 0;
+    NSInteger phaseCount = 0;
+    
+    for (int i = 0; i <self.labelArray.count; i++) {
+        
+        NSArray *line = [self.labelArray objectAtIndex:i];
+        NSString *lineText = [self.lineArray objectAtIndex:i];
+        
+        if (self.alignment == NSTextAlignmentCenter) {
+            CGSize lineSize = [lineText sizeWithFont:self.font];
+            xOffset = self.displayPosition.x + ((self.widthConstraint - lineSize.width)/2) ;
+        }else{
+            xOffset = self.displayPosition.x;
+        }
+        
+        for (UILabel *character in line) {
+            
+            CGSize characterSize = [character.text sizeWithFont:self.font];
+            
+            [UIView animateWithDuration:self.duration delay:.3 options:self.options animations:^{
+                character.frame = CGRectMake(xOffset,
+                                             yOffset,
+                                             characterSize.width,
+                                             characterSize.height);
+                
+                
+                if (self.shouldFade) {
+                    character.alpha = 0;
+                }
+            } completion:^(BOOL finished) {
+                
+            }];
+            xOffset += characterSize.width;
+            
+            phaseCount++;
+            
+            if (phaseCount == self.charactersToMoveSimultaneously) {
+                phaseCount = 0;
+                waitTime+= self.phaseDelayTime;
+            }
+            
+        }
+        
+        yOffset += self.font.pointSize;
+    }
+    
+    return waitTime;
+}
+
+- (CGFloat)animateToDisplayPosition
+{
+    self.phaseDelayTime = self.phaseDelayTimeIn;
+    self.shouldFade = self.shouldFadeIn;
+    self.charactersToMoveSimultaneously = self.charactersToMoveSimultaneouslyIn;
+    
+    CGFloat waitTime = 0.5;
+    switch (self.animateOnType) {
+            
+        case kMFLAnimateOnLinear:
+        {
+            waitTime = [self animateToPosition:self.displayPosition fromPoint:self.startPosition];
+            break;
+        }
+        case kMFLAnimateOnImplode:
+        {
+            [self setToExplodedPoints];
+            [self implodeOntoScreen];
+            break;
+        }
+            
+        default:
+            break;
+    }
+    return waitTime;
+}
+
+- (void)setToExplodedPoints
 {
     NSMutableArray *unmovedArray = [@[] mutableCopy];
     
     for (NSArray *array in self.labelArray) { [unmovedArray addObjectsFromArray:array]; }
     
+    while (unmovedArray.count) {
+        
+        UILabel *character = unmovedArray[arc4random()%unmovedArray.count];
+        
+        CGRect containingRect =CGRectInset(self.targetView.frame,
+                                           -character.frame.size.width,
+                                           -character.frame.size.height);
+        CGPoint offsetPoint;
+        
+        do {
+            offsetPoint = CGPointMake(arc4random()%lrintf(containingRect.size.width*2),
+                                      arc4random()%lrintf(containingRect.size.height*2));
+            
+        } while (CGRectContainsPoint(containingRect, offsetPoint));
+        
+        if (arc4random()%2) {
+            offsetPoint = CGPointMake(-offsetPoint.x, -offsetPoint.y);
+        }
+        
+        character.center = offsetPoint;
+        
+        [unmovedArray removeObject:character];
+    }
+}
+
+
+#pragma mark Exit Functions
+
+- (CGFloat)explodeToExit
+{
+    NSMutableArray *unmovedArray = [@[] mutableCopy];
     
+    for (NSArray *array in self.labelArray) { [unmovedArray addObjectsFromArray:array]; }
     
     int phaseCount = 0;
     CGFloat waitTime = 0;
@@ -329,15 +477,73 @@
         
         phaseCount++;
         
-        if (phaseCount == 10) {
+        if (phaseCount == self.charactersToMoveSimultaneously) {
             phaseCount = 0;
-            waitTime+= .15;
+            waitTime+= self.phaseDelayTime;
         }
     }
     return waitTime;
 }
 
 
+- (CGFloat)explodeToExitWithHighlyRandomCurve
+{
+    NSMutableArray *unmovedArray = [@[] mutableCopy];
+    
+    for (NSArray *array in self.labelArray) { [unmovedArray addObjectsFromArray:array]; }
+    
+    
+    
+    int phaseCount = 0;
+    CGFloat waitTime = 0;
+    
+    while (unmovedArray.count) {
+        
+        UILabel *character = unmovedArray[arc4random()%unmovedArray.count];
+        
+        CGRect containingRect =CGRectInset(self.targetView.frame,
+                                           -character.frame.size.width,
+                                           -character.frame.size.height);
+        
+        UIBezierPath *curvePath = [UIBezierPath bezierPath];
+        [curvePath moveToPoint:character.center];
+        
+        CGPoint offsetPoint;
+        CGFloat randomOffset = ((arc4random()%(lrintf(character.frame.size.width*self.randomizationFactor)))-
+                                (character.frame.size.width*(self.randomizationFactor/2)));
+        
+        if (character.center.x < self.targetView.center.x) {
+            offsetPoint = CGPointMake(character.center.x/2 + randomOffset,
+                                      containingRect.size.height);
+            [curvePath addQuadCurveToPoint:offsetPoint
+                              controlPoint:CGPointMake(character.center.x/4, 0)];
+        }else{
+            offsetPoint = CGPointMake(containingRect.size.width-character.center.x/2 + randomOffset,
+                                      containingRect.size.height);
+            [curvePath addQuadCurveToPoint:offsetPoint
+                              controlPoint:CGPointMake(self.targetView.frame.size.width - character.center.x/4, 0)];
+        }
+        
+        CAKeyframeAnimation *moveAnim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        moveAnim.path = curvePath.CGPath;
+        moveAnim.duration = self.duration;
+        moveAnim.fillMode = kCAFillModeForwards;
+        moveAnim.beginTime = CACurrentMediaTime() + waitTime;
+        moveAnim.removedOnCompletion = NO;
+        
+        [character.layer addAnimation:moveAnim forKey:@"stuff"];
+        
+        [unmovedArray removeObject:character];
+        
+        phaseCount++;
+        
+        if (phaseCount == self.charactersToMoveSimultaneously) {
+            phaseCount = 0;
+            waitTime+= self.phaseDelayTime;
+        }
+    }
+    return waitTime;
+}
 - (CGFloat)explodeToExitWithCurve
 {
     NSMutableArray *unmovedArray = [@[] mutableCopy];
@@ -387,78 +593,288 @@
         
         phaseCount++;
         
-        if (phaseCount == 2) {
+        if (phaseCount == self.charactersToMoveSimultaneously) {
             phaseCount = 0;
-            waitTime+= .05;
+            waitTime+= self.phaseDelayTime;
         }
     }
     return waitTime;
 }
 
-
-- (CGFloat)animateToDisplayPosition
+- (CGFloat)solitareToExitRandomly
 {
-    CGFloat waitTime = 0.5;
-    switch (self.animationType) {
-            
-        case kMFLAnimationLinear:
-        {
-            waitTime = [self animateToPosition:self.displayPosition fromPoint:self.startPosition];
-            break;
+    NSMutableArray *unmovedArray = [@[] mutableCopy];
+    
+    for (NSArray *array in self.labelArray) { [unmovedArray addObjectsFromArray:array]; }
+    
+    
+    
+    int phaseCount = 0;
+    CGFloat waitTime = 0;
+    
+    while (unmovedArray.count) {
+        
+        UILabel *character = unmovedArray[arc4random()%unmovedArray.count];
+        
+        CGRect containingRect =CGRectInset(self.targetView.frame,
+                                           -character.frame.size.width,
+                                           -character.frame.size.height);
+        
+        UIBezierPath *curvePath = [UIBezierPath bezierPath];
+        [curvePath moveToPoint:character.center];
+        
+        CGPoint offsetPoint;
+        
+        CGFloat randomOffset = ((arc4random()%(lrintf(character.frame.size.width*12)))-character.frame.size.width*6);
+        
+        if (character.center.x < self.targetView.center.x) {
+            offsetPoint = CGPointMake(character.center.x/2 + randomOffset,
+                                      containingRect.size.height);
+            [curvePath addQuadCurveToPoint:offsetPoint
+                              controlPoint:CGPointMake(character.center.x/4, 0)];
+        }else{
+            offsetPoint = CGPointMake(containingRect.size.width-character.center.x/2 + randomOffset,
+                                      containingRect.size.height);
+            [curvePath addQuadCurveToPoint:offsetPoint
+                              controlPoint:CGPointMake(self.targetView.frame.size.width - character.center.x/4, 0)];
         }
+        
+        CAKeyframeAnimation *moveAnim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        moveAnim.path = curvePath.CGPath;
+        moveAnim.duration = self.duration;
+        moveAnim.fillMode = kCAFillModeForwards;
+        moveAnim.beginTime = CACurrentMediaTime() + waitTime;
+        moveAnim.removedOnCompletion = NO;
+        
+        
+        [unmovedArray removeObject:character];
+        
+        NSArray*solitarePoints = getUniformPointsFromCGPath(curvePath.CGPath, self.solitareTrailLength);
+        
+        
+        NSMutableArray *trailArray = [@[] mutableCopy];
+        for (NSValue *pointVal in solitarePoints) {
             
-        case kMFLAnimationCurvedExplode:
-        {
-            waitTime = [self animateToPosition:self.displayPosition fromPoint:self.startPosition];
-            break;
-        }
+            CGPoint point = pointVal.CGPointValue;
             
-        case kMFLAnimationExplode:
-        {
-            waitTime = [self animateToPosition:self.displayPosition fromPoint:self.startPosition];
-            break;
-        }
-        case kMFLAnimationImplode:
-        {
-            [self explodeOnScreen];
-            break;
-        }
+            UILabel *trail = [[UILabel alloc]initWithFrame:CGRectMake(0, 0,
+                                                                      character.frame.size.width,
+                                                                      character.frame.size.height)];
+            [trail setCenter:point];
             
-        default:
-            break;
+            [trail setText:character.text];
+            [trail setTextColor:character.textColor];
+            [trail setFont:character.font];
+            [trail setBackgroundColor:[UIColor clearColor]];
+            [trailArray addObject:trail];
+            
+            CGFloat trailDisplayTime = ((self.duration/solitarePoints.count)*[solitarePoints
+                                                                              indexOfObject:pointVal]+waitTime);
+            NSLog(@"%f", trailDisplayTime);
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(trailDisplayTime * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [UIView animateWithDuration:(self.duration/solitarePoints.count) animations:^{
+                    if (pointVal != solitarePoints.lastObject) {
+                        CGPoint point =[[solitarePoints objectAtIndex:
+                                         [solitarePoints indexOfObject:pointVal]+1] CGPointValue];
+                        [character setCenter:point];
+                    }
+                }];
+                
+                [self.targetView addSubview:trail];
+                
+                
+                double delayInSeconds = self.solitareTrailDuration;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [UIView animateWithDuration:.3 animations:^{
+                        [trail setAlpha:0];
+                    }completion:^(BOOL finished) {
+                        [trailArray removeObject:trail];
+                        [trail removeFromSuperview];
+                        if (trailArray.count == 0) {
+                            [self.labelArray removeObject:trailArray];
+                        }
+                    }];
+                });
+            });
+        }
+        
+        [self.labelArray addObject:trailArray];
+        
+        
+        
+        phaseCount++;
+        
+        if (phaseCount == self.charactersToMoveSimultaneously) {
+            phaseCount = 0;
+            waitTime+= self.phaseDelayTime;
+        }
     }
     return waitTime;
 }
+
+- (CGFloat)solitareToExit
+{
+    NSMutableArray *unmovedArray = [@[] mutableCopy];
+    
+    for (NSArray *array in self.labelArray) { [unmovedArray addObjectsFromArray:array]; }
+    
+    
+    
+    int phaseCount = 0;
+    CGFloat waitTime = 0;
+    
+    while (unmovedArray.count) {
+        
+        UILabel *character = unmovedArray[arc4random()%unmovedArray.count];
+        
+        CGRect containingRect =CGRectInset(self.targetView.frame,
+                                           -character.frame.size.width,
+                                           -character.frame.size.height);
+        
+        UIBezierPath *curvePath = [UIBezierPath bezierPath];
+        [curvePath moveToPoint:character.center];
+        
+        CGPoint offsetPoint;
+        
+        if (character.center.x < self.targetView.center.x) {
+            offsetPoint = CGPointMake(character.center.x/2,
+                                      containingRect.size.height);
+            [curvePath addQuadCurveToPoint:offsetPoint
+                              controlPoint:CGPointMake(character.center.x/4, 0)];
+        }else{
+            offsetPoint = CGPointMake(containingRect.size.width-character.center.x/2,
+                                      containingRect.size.height);
+            [curvePath addQuadCurveToPoint:offsetPoint
+                              controlPoint:CGPointMake(self.targetView.frame.size.width - character.center.x/4, 0)];
+        }
+        
+        CAKeyframeAnimation *moveAnim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        moveAnim.path = curvePath.CGPath;
+        moveAnim.duration = self.duration;
+        moveAnim.fillMode = kCAFillModeForwards;
+        moveAnim.beginTime = CACurrentMediaTime() + waitTime;
+        moveAnim.removedOnCompletion = NO;
+        
+        
+        [unmovedArray removeObject:character];
+        
+        NSArray*solitarePoints = getUniformPointsFromCGPath(curvePath.CGPath, self.solitareTrailLength);
+        
+        
+        NSMutableArray *trailArray = [@[] mutableCopy];
+        for (NSValue *pointVal in solitarePoints) {
+            
+            CGPoint point = pointVal.CGPointValue;
+            
+            UILabel *trail = [[UILabel alloc]initWithFrame:CGRectMake(0, 0,
+                                                                      character.frame.size.width,
+                                                                      character.frame.size.height)];
+            [trail setCenter:point];
+            
+            [trail setText:character.text];
+            [trail setTextColor:character.textColor];
+            [trail setFont:character.font];
+            [trail setBackgroundColor:[UIColor clearColor]];
+            [trailArray addObject:trail];
+            
+            CGFloat trailDisplayTime = ((self.duration/solitarePoints.count)*[solitarePoints
+                                                                              indexOfObject:pointVal]+waitTime);
+            NSLog(@"%f", trailDisplayTime);
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(trailDisplayTime * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [UIView animateWithDuration:(self.duration/solitarePoints.count) animations:^{
+                    if (pointVal != solitarePoints.lastObject) {
+                        CGPoint point =[[solitarePoints objectAtIndex:
+                                         [solitarePoints indexOfObject:pointVal]+1] CGPointValue];
+                        [character setCenter:point];
+                    }
+                }];
+                
+                [self.targetView addSubview:trail];
+                
+                
+                double delayInSeconds = self.solitareTrailDuration;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [UIView animateWithDuration:.3 animations:^{
+                        [trail setAlpha:0];
+                    }completion:^(BOOL finished) {
+                        [trailArray removeObject:trail];
+                        [trail removeFromSuperview];
+                        if (trailArray.count == 0) {
+                            [self.labelArray removeObject:trailArray];
+                        }
+                    }];
+                });
+            });
+        }
+        
+        [self.labelArray addObject:trailArray];
+        
+        
+        phaseCount++;
+        
+        if (phaseCount == self.charactersToMoveSimultaneously) {
+            phaseCount = 0;
+            waitTime+= self.phaseDelayTime;
+        }
+    }
+    return waitTime;
+}
+
 
 - (CGFloat)animateToFinalPosition
 {
+    self.phaseDelayTime = self.phaseDelayTimeOut;
+    self.shouldFade = self.shouldFadeOut;
+    self.charactersToMoveSimultaneously = self.charactersToMoveSimultaneouslyOut;
     
     CGFloat waitTime = 0;
-    switch (self.animationType) {
+    switch (self.animateOffType) {
             
-        case kMFLAnimationLinear:
+        case kMFLAnimateOffLinear:
         {
             waitTime = [self animateToPosition:self.endPosition fromPoint:self.displayPosition];
             break;
         }
             
-        case kMFLAnimationCurvedExplode:
+        case kMFLAnimateOffCurvedExplode:
         {
-            [self explodeToExitWithCurve];
+            waitTime = [self explodeToExitWithCurve];
             break;
         }
             
-        case kMFLAnimationExplode:
+        case kMFLAnimateOffExplode:
         {
-            [self explodeToExit];
+            waitTime = [self explodeToExit];
             break;
         }
             
-        case kMFLAnimationImplode:
+        case kMFLAnimateImplodeStill:
         {
-            //waitTime = [self animateToPosition:self.displayPosition];
+            waitTime = [self explodeOnScreen];
             break;
         }
+            
+        case kMFLAnimateOffSolitare:
+        {
+            waitTime = [self solitareToExit];
+            break;
+        }
+            
+        case kMFLAnimateOffRandomCurvedExplode:
+        {
+            waitTime = [self explodeToExitWithHighlyRandomCurve];
+            break;
+        }
+            
+        case kMFLAnimateOffRandomSolitare:
+        {
+            waitTime = [self solitareToExitRandomly];
+        }
+        
         default:
             break;
     }
@@ -467,6 +883,11 @@
 }
 
 #pragma mark Stop methods
+
+- (void)stop
+{
+    [self cleanAnimation];
+}
 
 - (void)cleanAnimation
 {
