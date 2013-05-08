@@ -3,8 +3,10 @@
 //  MFLHintLabel
 //
 //  Created by teejay on 2/27/13.
-//  Copyright (c) 2013 teejay. All rights reserved.
+//  Thanks to:
+//  http://stackoverflow.com/questions/4421267/how-to-get-text-from-nth-line-of-uilabel
 //
+
 
 #import "UILabel+Lines.h"
 #import <CoreText/CoreText.h>

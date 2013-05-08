@@ -8,6 +8,7 @@
 
 #import "MFLViewController.h"
 #import "MFLHintLabel.h"
+#import "UIFont+Mapcraft.h"
 
 @interface MFLViewController ()
 @property (nonatomic, strong) MFLHintLabel *hintAnimation;
@@ -30,7 +31,7 @@
 
 - (IBAction)fireCurve:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
                                                                  withFont:[UIFont boldSystemFontOfSize:22]
                                                               beginningAt:CGPointMake(40, 150)
@@ -52,7 +53,7 @@
 
 - (IBAction)fireExplode:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
                                                                  withFont:[UIFont boldSystemFontOfSize:22]
                                                               beginningAt:CGPointMake(20, self.view.center.y)
@@ -74,15 +75,17 @@
 
 - (IBAction)fireLinear:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
-                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                                 withFont:[UIFont mapCraftHeaderWithSize:20]
                                                               beginningAt:CGPointMake(40, -200)
                                                              displayingAt:CGPointMake(20, self.view.center.y)
                                                                  endingAt:CGPointMake(40, self.view.frame.size.height+200)
                                                              inTargetView:self.view];
     [self.hintAnimation setAnimateOnType:kMFLAnimateOnLinear];
     [self.hintAnimation setAnimateOffType:kMFLAnimateOffLinear];
+    
+    [self.hintAnimation setTweakLineheight:6];
     
     [self.hintAnimation setPhaseDelayTimeIn:.05];
     [self.hintAnimation setPhaseDelayTimeOut:.1];
@@ -96,9 +99,9 @@
 
 - (IBAction)fireImplode:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
-                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                                 withFont:[UIFont mapCraftDetailWithSize:12]
                                                               beginningAt:CGPointMake(40, 150)
                                                              displayingAt:CGPointMake(20, self.view.center.y)
                                                                  endingAt:CGPointMake(40, self.view.frame.size.height+200)
@@ -117,9 +120,9 @@
 
 - (IBAction)fireSolitare:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"the lazy dog"
-                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                                 withFont:[UIFont boldSystemFontOfSize:32]
                                                               beginningAt:CGPointMake(40, -250)
                                                              displayingAt:CGPointMake(20, self.view.center.y)
                                                                  endingAt:CGPointMake(40, self.view.frame.size.height+200)
@@ -141,9 +144,9 @@
 
 - (IBAction)fireRandomSolitare:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"the lazy dog"
-                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                                 withFont:[UIFont mapCraftHeaderWithSize:18]
                                                               beginningAt:CGPointMake(40, -250)
                                                              displayingAt:CGPointMake(20, self.view.center.y)
                                                                  endingAt:CGPointMake(40, self.view.frame.size.height+200)
@@ -151,7 +154,9 @@
     [self.hintAnimation setAnimateOnType:kMFLAnimateOnLinear];
     [self.hintAnimation setAnimateOffType:kMFLAnimateOffRandomSolitare];
     
-    [self.hintAnimation setDuration:5];
+    [self.hintAnimation setTweakLineheight:5];
+    
+    [self.hintAnimation setDuration:1.2];
     
     [self.hintAnimation setPhaseDelayTimeIn:.05];
     [self.hintAnimation setPhaseDelayTimeOut:.05];
@@ -165,7 +170,7 @@
 
 - (IBAction)fireRandomCurve:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
                                                                  withFont:[UIFont boldSystemFontOfSize:22]
                                                               beginningAt:CGPointMake(40, -250)
@@ -187,15 +192,17 @@
 
 - (IBAction)fireImplodeFactorStill:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
-                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                                 withFont:[UIFont mapCraftHeaderWithSize:12]
                                                               beginningAt:CGPointMake(40, -250)
                                                              displayingAt:CGPointMake(20, self.view.center.y)
                                                                  endingAt:CGPointMake(40, self.view.frame.size.height+200)
                                                              inTargetView:self.view];
     [self.hintAnimation setAnimateOnType:kMFLAnimateOnLinear];
     [self.hintAnimation setAnimateOffType:kMFLAnimateImplodeStill];
+    
+        [self.hintAnimation setTweakLineheight:4];
     
     [self.hintAnimation setImplodeFrameFactor:2];
     
@@ -211,9 +218,10 @@
 
 - (IBAction)fireImplodeFrameStill:(id)sender
 {
-    [self.hintAnimation cleanAnimation];
+    [self.hintAnimation stop];
+    
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
-                                                                 withFont:[UIFont boldSystemFontOfSize:22]
+                                                                 withFont:[UIFont mapCraftDetailWithSize:22]
                                                               beginningAt:CGPointMake(40, -250)
                                                              displayingAt:CGPointMake(20, self.view.center.y)
                                                                  endingAt:CGPointMake(40, self.view.frame.size.height+200)
@@ -233,6 +241,85 @@
     [self.hintAnimation run];
 }
 
+
+- (IBAction)animateOnAnimation:(id)sender
+{
+    [self.hintAnimation stop];
+    
+    [self.onlyOffButton setEnabled:YES];
+    [self.onlyOnButton setEnabled:NO];
+    
+    self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
+                                                                 withFont:[UIFont mapCraftDetailWithSize:22]
+                                                              beginningAt:CGPointMake(40, -250)
+                                                             displayingAt:CGPointMake(20, self.view.center.y)
+                                                                 endingAt:CGPointMake(40, self.view.frame.size.height+200)
+                                                             inTargetView:self.view];
+    [self.hintAnimation setAnimateOnType:kMFLAnimateOnImplode];
+    [self.hintAnimation setAnimateOffType:kMFLAnimateOffNone];
+    
+    [self.hintAnimation setPhaseDelayTimeIn:.03];
+    [self.hintAnimation setCharactersToMoveSimultaneouslyIn:2];
+    
+    [self.hintAnimation prepareToRun];
+    [self.hintAnimation run];
+}
+
+- (IBAction)animateOffAnimation:(id)sender
+{
+    [self.hintAnimation stop];
+    
+    [self.onlyOffButton setEnabled:NO];
+    [self.onlyOnButton setEnabled:YES];
+    
+    self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
+                                                                 withFont:[UIFont mapCraftDetailWithSize:22]
+                                                              beginningAt:CGPointMake(20, self.view.center.y)
+                                                             displayingAt:CGPointMake(20, self.view.center.y)
+                                                                 endingAt:CGPointMake(40, self.view.frame.size.height+200)
+                                                             inTargetView:self.view];
+    
+    [self.hintAnimation setAnimateOnType:kMFLAnimateOnNone];
+    [self.hintAnimation setAnimateOffType:kMFLAnimateOffCurvedExplode];
+    [self.hintAnimation setDisplayTime:0];
+    [self.hintAnimation setPhaseDelayTimeOut:.01];
+    [self.hintAnimation setCharactersToMoveSimultaneouslyOut:1];
+    
+    [self.hintAnimation prepareToRun];
+    [self.hintAnimation run];
+}
+
+- (IBAction)runWithCompletionBlock:(id)sender
+{
+    [self.hintAnimation stop];
+    
+    self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
+                                                                 withFont:[UIFont mapCraftDetailWithSize:22]
+                                                              beginningAt:CGPointMake(40, -250)
+                                                             displayingAt:CGPointMake(20, self.view.center.y)
+                                                                 endingAt:CGPointMake(40, self.view.frame.size.height+200)
+                                                             inTargetView:self.view];
+    [self.hintAnimation setAnimateOnType:kMFLAnimateOnLinear];
+    [self.hintAnimation setAnimateOffType:kMFLAnimateImplodeStill];
+    
+    [self.hintAnimation setImplodeWithinFrame:self.view.frame];
+    
+    [self.hintAnimation setPhaseDelayTimeIn:.05];
+    [self.hintAnimation setPhaseDelayTimeOut:.05];
+    
+    [self.hintAnimation setCharactersToMoveSimultaneouslyIn:3];
+    [self.hintAnimation setCharactersToMoveSimultaneouslyOut:5];
+    
+    [self.hintAnimation prepareToRun];
+    
+    [self.hintAnimation runWithCompletion:^{
+        [[[UIAlertView alloc]initWithTitle:@"Completed"
+                                   message:@"This was fired from the completion block"
+                                  delegate:nil
+                         cancelButtonTitle:@"Cool!"
+                         otherButtonTitles:nil] show];
+    }];
+}
 
 
 - (void)didReceiveMemoryWarning

@@ -17,10 +17,9 @@
 @property (nonatomic, assign) CGFloat phaseDelayTime;
 
 @property (nonatomic, strong) UIView *targetView;
-
-@property (nonatomic, strong) NSMutableArray *labelArray;
 @property (nonatomic, strong) NSArray *lineArray;
 
+@property (nonatomic, copy) void (^animEndsBlock)(void);
 @end
 @implementation MFLHintLabel
 
@@ -90,7 +89,8 @@
     _solitareTrailDuration = .1;
     _solitareTrailLength = 10;
     _randomizationFactor = 12;
-    
+    _tweakKerning = 0;
+    _tweakLineheight = 0;
     _implodeFrameFactor = 1;
     _widthConstraint = CGRectGetWidth(_targetView.bounds) - 60;
 }
@@ -114,12 +114,34 @@
 
 - (void)run
 {
-    CGFloat finalWaitTime = [self animateToDisplayPosition];
-    [self performSelector:@selector(animateToFinalPosition)
-               withObject:nil
-               afterDelay:self.displayTime+finalWaitTime+self.duration
-                  inModes:@[NSDefaultRunLoopMode]];
+    CGFloat displayWaitTime = [self animateToDisplayPosition];
     
+    double delayInSeconds = self.displayTime+displayWaitTime+self.duration;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        
+        CGFloat removeWaitTime = [self animateToFinalPosition];
+        
+        if (removeWaitTime) {
+            double delayInSeconds = self.displayTime+removeWaitTime+self.duration;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                
+                if (self.animEndsBlock) {
+                    self.animEndsBlock();
+                    self.animEndsBlock = nil;
+                }
+                
+                [self cleanAndRemoveAnimation];
+            });
+        }
+    });
+}
+
+- (void)runWithCompletion:(void (^)())animEndsBlock
+{
+    self.animEndsBlock = animEndsBlock;
+    [self run];
 }
 
 - (void)createLabels
@@ -160,11 +182,11 @@
                 characterLabel.alpha = 0;
             }
             
-            xOffset += characterSize.width;
+            xOffset += characterSize.width + self.tweakKerning;
         }
         
         [self.labelArray addObject:lineLabels];
-        yOffset += self.font.pointSize;
+        yOffset += self.font.pointSize + self.tweakLineheight;
     }
 }
 
@@ -247,6 +269,7 @@
             waitTime+= self.phaseDelayTime;
         }
     }
+    
     return waitTime;
 }
 
@@ -256,10 +279,7 @@
     
     for (NSArray *array in self.labelArray) { [unmovedArray addObjectsFromArray:array]; }
     
-    
-    
-    int phaseCount = 0;
-    CGFloat waitTime = 0;
+    CGFloat waitTime = self.duration*2;
     
     CGRect containingRect;
     if (CGRectEqualToRect(CGRectZero,self.implodeWithinFrame)) {
@@ -299,20 +319,23 @@
         
         [UIView animateWithDuration:self.duration
                               delay:waitTime
-                            options:self.options | UIViewAnimationOptionAutoreverse
+                            options:self.options
                          animations:^{
                              
                              character.center = offsetPoint;
                              
                          } completion:^(BOOL finished) {
-                             
-                             character.center = originalPoint;
+                             [UIView animateWithDuration:self.duration
+                                                   delay:0
+                                                 options:self.options
+                                              animations:^{
+                                                  character.center = originalPoint;
+                                              }completion:nil];
                              
                          }];
         
         [unmovedArray removeObject:character];
         
-        phaseCount++;
     }
     return waitTime;
 }
@@ -354,7 +377,7 @@
             } completion:^(BOOL finished) {
                 
             }];
-            xOffset += characterSize.width;
+            xOffset += characterSize.width + self.tweakKerning;
             
             phaseCount++;
             
@@ -365,7 +388,7 @@
             
         }
         
-        yOffset += self.font.pointSize;
+        yOffset += self.font.pointSize + self.tweakLineheight;
     }
     
     return waitTime;
@@ -388,13 +411,19 @@
         case kMFLAnimateOnImplode:
         {
             [self setToExplodedPoints];
-            [self implodeOntoScreen];
+            waitTime = [self implodeOntoScreen];
+            break;
+        }
+        case kMFLAnimateOnNone:
+        {
+            waitTime = 0;
             break;
         }
             
         default:
             break;
     }
+    
     return waitTime;
 }
 
@@ -874,6 +903,11 @@
         {
             waitTime = [self solitareToExitRandomly];
         }
+            
+        case kMFLAnimateOffNone:
+        {
+            waitTime = 0;
+        }
         
         default:
             break;
@@ -886,11 +920,11 @@
 
 - (void)stop
 {
-    [self cleanAnimation];
+    [self cleanAndRemoveAnimation];
 }
 
-- (void)cleanAnimation
-{
+- (void)cleanAndRemoveAnimation
+{    
     self.targetView = nil;
     
     for (NSMutableArray*array in self.labelArray) {
@@ -908,11 +942,12 @@
     self.font = nil;
     self.stringToDisplay = nil;
     self.textColor = nil;
+    self.animEndsBlock = nil;
 }
 
 - (void)dealloc
 {
-    NSLog(@"You don't suck at memory management.");
+    NSLog(@"%@ dealloc", [self description]);
 }
 
 

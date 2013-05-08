@@ -11,25 +11,30 @@
 #warning This class only works for alignments left/center
 
 typedef enum {
-    kMFLAnimateOnLinear,            //Falls onto screen to display point, falls off of screen to end position
-    kMFLAnimateOnImplode            //Explodes and Snaps into place on screen.
+    kMFLAnimateOnLinear,                //Falls onto screen to display point, falls off of screen to end position
+    kMFLAnimateOnImplode,               //Explodes and Snaps into place on screen.
+    kMFLAnimateOnNone
 } kMFLAnimateOnType;
 
 typedef enum {
-    kMFLAnimateOffRandomCurvedExplode,
-    kMFLAnimateOffCurvedExplode,     //Curved Explodes offscreen
-    kMFLAnimateOffSolitare,
-    kMFLAnimateOffRandomSolitare,    //Curved explode plus trails
-    kMFLAnimateOffExplode,           //Explodes off screen in all directions
-    kMFLAnimateOffLinear,            //Falls off of screen to end position
-    kMFLAnimateImplodeStill             //Explodes and Snaps back into place
+    kMFLAnimateOffRandomCurvedExplode,  //Curved Explode with randomization
+    kMFLAnimateOffCurvedExplode,        //Curved Explodes offscreen
+    kMFLAnimateOffSolitare,             //Curved explode plus trails
+    kMFLAnimateOffRandomSolitare,       //Curved explode plus trails plus randomization
+    kMFLAnimateOffExplode,              //Explodes off screen in all directions
+    kMFLAnimateOffLinear,               //Falls off of screen to end position
+    kMFLAnimateImplodeStill,            //Explodes and Snaps back into place
+    kMFLAnimateOffNone
 } kMFLAnimateOffType;
 
 
 @interface MFLHintLabel : NSObject
 
-#warning Set All of these properties before calling prepareToRun
+
+#warning Set these properties before calling prepareToRun
 @property (nonatomic, strong) NSString *stringToDisplay;
+@property (nonatomic, strong) NSMutableArray *labelArray;
+
 
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, strong) UIColor *textColor;
@@ -57,6 +62,15 @@ typedef enum {
 @property (nonatomic, assign) CGFloat phaseDelayTimeIn;
 @property (nonatomic, assign) CGFloat phaseDelayTimeOut;
 
+
+//If your custom font does not properly encode it's lineheight, use this to tweak it. Defaults to 0
+//Negative numbers bring lines closer together, positive numbers move them further apart.
+@property (nonatomic, assign) CGFloat tweakLineheight;
+
+//If your custom font does not properly encode it's kerning, use this to tweak it. Defaults to 0
+//Negative numbers bring letters closer together, positive numbers move them further apart.
+@property (nonatomic, assign) CGFloat tweakKerning;
+
 @property (nonatomic, assign) NSTextAlignment alignment;
 @property (nonatomic, assign) kMFLAnimateOnType animateOnType;
 @property (nonatomic, assign) kMFLAnimateOffType animateOffType;
@@ -80,11 +94,15 @@ typedef enum {
 //Or set this
 @property (nonatomic, assign) CGRect implodeWithinFrame;
 
+- (void)runWithCompletion:(void (^)())animEndsBlock;
 
 - (void)run;
 - (void)stop;
+
 - (void)prepareToRun;
-- (void)cleanAnimation;
+
+
+- (void)cleanAndRemoveAnimation;
 
 - (MFLHintLabel *)createHintAnimationForText:(NSString*)text
                                     withFont:(UIFont*)font

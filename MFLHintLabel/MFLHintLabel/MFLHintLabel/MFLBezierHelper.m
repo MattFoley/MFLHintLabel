@@ -3,7 +3,7 @@
 //  MFLHintLabel
 //
 //  Created by teejay on 3/2/13.
-//  Copyright (c) 2013 teejay. All rights reserved.
+//  Mostly taken from http://iphonedevsdk.com/forum/iphone-sdk-development/101053-cgpath-help.html
 //
 
 #import "MFLBezierHelper.h"

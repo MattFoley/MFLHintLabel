@@ -7,16 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		373452BE16E2DAD100110854 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373452BD16E2DAD100110854 /* CoreGraphics.framework */; };
+		373452C516E2F48C00110854 /* MFLBezierHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 373452C016E2F48C00110854 /* MFLBezierHelper.m */; };
+		373452C616E2F48C00110854 /* MFLHintLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 373452C216E2F48C00110854 /* MFLHintLabel.m */; };
+		373452C716E2F48C00110854 /* UILabel+Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = 373452C416E2F48C00110854 /* UILabel+Lines.m */; };
 		373F641D16E051D800AEAE70 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373F641C16E051D800AEAE70 /* CoreText.framework */; };
-		379999E316E2696B00488FB1 /* MFLBezierHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 379999E216E2696B00488FB1 /* MFLBezierHelper.m */; };
 		379999E616E286BA00488FB1 /* buttons_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 379999E416E286BA00488FB1 /* buttons_btn.png */; };
 		379999E716E286BA00488FB1 /* buttons_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 379999E516E286BA00488FB1 /* buttons_btn@2x.png */; };
-		37ADBEE916DED11F0077ADFF /* MFLHintLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 37ADBEE816DED11F0077ADFF /* MFLHintLabel.m */; };
+		379999ED16E2A7CD00488FB1 /* MineCraft.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 379999E916E2A7CD00488FB1 /* MineCraft.ttf */; };
+		379999EE16E2A7CD00488FB1 /* minecrafter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 379999EA16E2A7CD00488FB1 /* minecrafter.ttf */; };
+		379999EF16E2A7CD00488FB1 /* UIFont+Mapcraft.m in Sources */ = {isa = PBXBuildFile; fileRef = 379999EC16E2A7CD00488FB1 /* UIFont+Mapcraft.m */; };
 		37ADBEEB16DED3830077ADFF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37ADBEEA16DED3830077ADFF /* QuartzCore.framework */; };
-		37ADBEEE16DEDEA20077ADFF /* UILabel+Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = 37ADBEED16DEDEA20077ADFF /* UILabel+Lines.m */; };
 		37DAA2A616DC85390032A1CA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DAA2A516DC85390032A1CA /* UIKit.framework */; };
 		37DAA2A816DC85390032A1CA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DAA2A716DC85390032A1CA /* Foundation.framework */; };
-		37DAA2AA16DC85390032A1CA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DAA2A916DC85390032A1CA /* CoreGraphics.framework */; };
 		37DAA2B016DC85390032A1CA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 37DAA2AE16DC85390032A1CA /* InfoPlist.strings */; };
 		37DAA2B216DC85390032A1CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37DAA2B116DC85390032A1CA /* main.m */; };
 		37DAA2B616DC85390032A1CA /* MFLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37DAA2B516DC85390032A1CA /* MFLAppDelegate.m */; };
@@ -28,20 +31,24 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		373452BD16E2DAD100110854 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		373452BF16E2F48C00110854 /* MFLBezierHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFLBezierHelper.h; path = MFLHintLabel/MFLBezierHelper.h; sourceTree = "<group>"; };
+		373452C016E2F48C00110854 /* MFLBezierHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFLBezierHelper.m; path = MFLHintLabel/MFLBezierHelper.m; sourceTree = "<group>"; };
+		373452C116E2F48C00110854 /* MFLHintLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFLHintLabel.h; path = MFLHintLabel/MFLHintLabel.h; sourceTree = "<group>"; };
+		373452C216E2F48C00110854 /* MFLHintLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFLHintLabel.m; path = MFLHintLabel/MFLHintLabel.m; sourceTree = "<group>"; };
+		373452C316E2F48C00110854 /* UILabel+Lines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+Lines.h"; path = "MFLHintLabel/UILabel+Lines.h"; sourceTree = "<group>"; };
+		373452C416E2F48C00110854 /* UILabel+Lines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+Lines.m"; path = "MFLHintLabel/UILabel+Lines.m"; sourceTree = "<group>"; };
 		373F641C16E051D800AEAE70 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		379999E116E2696B00488FB1 /* MFLBezierHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFLBezierHelper.h; sourceTree = "<group>"; };
-		379999E216E2696B00488FB1 /* MFLBezierHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFLBezierHelper.m; sourceTree = "<group>"; };
 		379999E416E286BA00488FB1 /* buttons_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttons_btn.png; sourceTree = "<group>"; };
 		379999E516E286BA00488FB1 /* buttons_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttons_btn@2x.png"; sourceTree = "<group>"; };
-		37ADBEE716DED11F0077ADFF /* MFLHintLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFLHintLabel.h; path = MFLHintLabel/MFLHintLabel.h; sourceTree = "<group>"; };
-		37ADBEE816DED11F0077ADFF /* MFLHintLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFLHintLabel.m; path = MFLHintLabel/MFLHintLabel.m; sourceTree = "<group>"; };
+		379999E916E2A7CD00488FB1 /* MineCraft.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MineCraft.ttf; sourceTree = "<group>"; };
+		379999EA16E2A7CD00488FB1 /* minecrafter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = minecrafter.ttf; sourceTree = "<group>"; };
+		379999EB16E2A7CD00488FB1 /* UIFont+Mapcraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Mapcraft.h"; sourceTree = "<group>"; };
+		379999EC16E2A7CD00488FB1 /* UIFont+Mapcraft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Mapcraft.m"; sourceTree = "<group>"; };
 		37ADBEEA16DED3830077ADFF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		37ADBEEC16DEDEA20077ADFF /* UILabel+Lines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+Lines.h"; path = "MFLHintLabel/UILabel+Lines.h"; sourceTree = "<group>"; };
-		37ADBEED16DEDEA20077ADFF /* UILabel+Lines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+Lines.m"; path = "MFLHintLabel/UILabel+Lines.m"; sourceTree = "<group>"; };
 		37DAA2A216DC85390032A1CA /* MFLHintLabel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MFLHintLabel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37DAA2A516DC85390032A1CA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		37DAA2A716DC85390032A1CA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		37DAA2A916DC85390032A1CA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		37DAA2AD16DC85390032A1CA /* MFLHintLabel-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MFLHintLabel-Info.plist"; sourceTree = "<group>"; };
 		37DAA2AF16DC85390032A1CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		37DAA2B116DC85390032A1CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -61,33 +68,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				373452BE16E2DAD100110854 /* CoreGraphics.framework in Frameworks */,
 				373F641D16E051D800AEAE70 /* CoreText.framework in Frameworks */,
 				37ADBEEB16DED3830077ADFF /* QuartzCore.framework in Frameworks */,
 				37DAA2A616DC85390032A1CA /* UIKit.framework in Frameworks */,
 				37DAA2A816DC85390032A1CA /* Foundation.framework in Frameworks */,
-				37DAA2AA16DC85390032A1CA /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		379999D316E267AD00488FB1 /* wykobi */ = {
+		379999E816E2A7CD00488FB1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				379999E116E2696B00488FB1 /* MFLBezierHelper.h */,
-				379999E216E2696B00488FB1 /* MFLBezierHelper.m */,
+				379999E916E2A7CD00488FB1 /* MineCraft.ttf */,
+				379999EA16E2A7CD00488FB1 /* minecrafter.ttf */,
+				379999EB16E2A7CD00488FB1 /* UIFont+Mapcraft.h */,
+				379999EC16E2A7CD00488FB1 /* UIFont+Mapcraft.m */,
 			);
-			name = wykobi;
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		37ADBEE616DED1040077ADFF /* MFLHintLabel */ = {
 			isa = PBXGroup;
 			children = (
-				37ADBEE716DED11F0077ADFF /* MFLHintLabel.h */,
-				37ADBEE816DED11F0077ADFF /* MFLHintLabel.m */,
-				37ADBEEC16DEDEA20077ADFF /* UILabel+Lines.h */,
-				37ADBEED16DEDEA20077ADFF /* UILabel+Lines.m */,
+				373452BF16E2F48C00110854 /* MFLBezierHelper.h */,
+				373452C016E2F48C00110854 /* MFLBezierHelper.m */,
+				373452C116E2F48C00110854 /* MFLHintLabel.h */,
+				373452C216E2F48C00110854 /* MFLHintLabel.m */,
+				373452C316E2F48C00110854 /* UILabel+Lines.h */,
+				373452C416E2F48C00110854 /* UILabel+Lines.m */,
 			);
 			name = MFLHintLabel;
 			sourceTree = "<group>";
@@ -95,8 +106,7 @@
 		37DAA29916DC85390032A1CA = {
 			isa = PBXGroup;
 			children = (
-				373F641C16E051D800AEAE70 /* CoreText.framework */,
-				37ADBEEA16DED3830077ADFF /* QuartzCore.framework */,
+				373452BD16E2DAD100110854 /* CoreGraphics.framework */,
 				37DAA2AB16DC85390032A1CA /* MFLHintLabel */,
 				37DAA2A416DC85390032A1CA /* Frameworks */,
 				37DAA2A316DC85390032A1CA /* Products */,
@@ -114,9 +124,10 @@
 		37DAA2A416DC85390032A1CA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				373F641C16E051D800AEAE70 /* CoreText.framework */,
+				37ADBEEA16DED3830077ADFF /* QuartzCore.framework */,
 				37DAA2A516DC85390032A1CA /* UIKit.framework */,
 				37DAA2A716DC85390032A1CA /* Foundation.framework */,
-				37DAA2A916DC85390032A1CA /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -124,7 +135,7 @@
 		37DAA2AB16DC85390032A1CA /* MFLHintLabel */ = {
 			isa = PBXGroup;
 			children = (
-				379999D316E267AD00488FB1 /* wykobi */,
+				379999E816E2A7CD00488FB1 /* Fonts */,
 				37ADBEE616DED1040077ADFF /* MFLHintLabel */,
 				37DAA2B416DC85390032A1CA /* MFLAppDelegate.h */,
 				37DAA2B516DC85390032A1CA /* MFLAppDelegate.m */,
@@ -211,6 +222,8 @@
 				37DAA2C216DC85390032A1CA /* MFLViewController.xib in Resources */,
 				379999E616E286BA00488FB1 /* buttons_btn.png in Resources */,
 				379999E716E286BA00488FB1 /* buttons_btn@2x.png in Resources */,
+				379999ED16E2A7CD00488FB1 /* MineCraft.ttf in Resources */,
+				379999EE16E2A7CD00488FB1 /* minecrafter.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,9 +237,10 @@
 				37DAA2B216DC85390032A1CA /* main.m in Sources */,
 				37DAA2B616DC85390032A1CA /* MFLAppDelegate.m in Sources */,
 				37DAA2BF16DC85390032A1CA /* MFLViewController.m in Sources */,
-				37ADBEE916DED11F0077ADFF /* MFLHintLabel.m in Sources */,
-				37ADBEEE16DEDEA20077ADFF /* UILabel+Lines.m in Sources */,
-				379999E316E2696B00488FB1 /* MFLBezierHelper.m in Sources */,
+				379999EF16E2A7CD00488FB1 /* UIFont+Mapcraft.m in Sources */,
+				373452C516E2F48C00110854 /* MFLBezierHelper.m in Sources */,
+				373452C616E2F48C00110854 /* MFLHintLabel.m in Sources */,
+				373452C716E2F48C00110854 /* UILabel+Lines.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,8 +291,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -301,8 +316,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -313,8 +329,13 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MFLHintLabel/MFLHintLabel-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/MFLHintLabel/MFLHintLabel\"";
 				INFOPLIST_FILE = "MFLHintLabel/MFLHintLabel-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/MFLHintLabel/MFLHintLabel\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -325,8 +346,13 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MFLHintLabel/MFLHintLabel-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/MFLHintLabel/MFLHintLabel\"";
 				INFOPLIST_FILE = "MFLHintLabel/MFLHintLabel-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/MFLHintLabel/MFLHintLabel\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
