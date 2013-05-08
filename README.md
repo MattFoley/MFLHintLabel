@@ -1,15 +1,6 @@
-MFLHintLabel
-============
+##MFLHintLabel
 
 MFLHintLabel is the product of trying to find a playful, simple, reusable and unique way to communicate with users. It provides nine highly customizable animation types to display and dismiss text, all based on manipulating the individual characters.
-
-#Video Examples
-
-Actual app integration in MapCraft
-http://www.youtube.com/watch?v=PN5uaTX8X0Q
-
-Sample App included here
-http://www.youtube.com/watch?v=puE_riiUuuk
 
 Animations Include:
 
@@ -23,13 +14,19 @@ Animations Include:
 
 • Many more, and combinations of these.
 
+####Video Examples
+
+Actual app integration in MapCraft
+http://www.youtube.com/watch?v=PN5uaTX8X0Q
+
+Sample App included here
+http://www.youtube.com/watch?v=puE_riiUuuk
+
 For now these animations are mostly 2D, but I plan to add 3D animations soon.
 
-Integrating this framework is simple and the sample project contains examples of all nine animations. If you want to leap right in, MFLHintLabel.h contains documentation on all the available properties for customization, and the sample project contains a dozen example animations. See below for a more thorough explanation.
+The sample project contains examples of all nine animations. If you want to leap right in, MFLHintLabel.h contains documentation on all the available properties for customization, and the sample project contains a dozen example animations. See below for a more thorough explanation.
 
-
-Integrating this framework is simple:
-============
+##Integration
 
  1. Include libMFLAnimatedLabel.a file and header files in your project.
 
@@ -37,8 +34,7 @@ Integrating this framework is simple:
 
  3. Ensure you're including the CoreText, CoreGraphics, and QuartzCore frameworks in your project.
 
-How-To Long Form
-============
+##How-To Long Form
 
 There are two main methods to create an animation.
 
@@ -68,23 +64,23 @@ Your display point is where your animation will display at, this is also the end
 
 Your endpoint is the position your label will animate out to after displaying if applicable to the animate out type you set.
 
-# Notes
+### Notes
 
-## Displaying without running
+##### Displaying without running
 Be sure to call prepareToRun after you finish setting up your MFLHintLabel. This will create the structure for your animation, add it to the targetView view hierarchy and ready it to be run. Call this if you want to show your animation at it's startPosition for some time before running the animation.
 
-## Memory Warning:
+##### Memory Warning:
 If you dictate only an On animation, you'll need to call:
 
     [hintLabel cleanAndRemoveAnimation]
 
 To remove the hintLabel from the target view, and ensure it is deallocated.
 
-## One Way Animation
+##### One Way Animation
 
 If you wish to run only an On animation or an Off animation you must dictate either kMFLAnimateOnNone or kMFLAnimateOffNone
 
-## Completion Block
+##### Completion Block
 
 You may run your animation with a completion block like so:
 
@@ -96,8 +92,7 @@ You may run your animation with a completion block like so:
                          otherButtonTitles:nil] show];
     }];
 
-LICENSE
-==========
+##LICENSE
 
 This repo is under the BeerWare License, but if you feel like this saved you some time, feel free to pay for the repo at Binpress.com
 
