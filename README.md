@@ -1,18 +1,15 @@
 MFLHintLabel
 ============
 
-MFLHintLabel is the product of trying to find a playful, simple, reusable and unique way to communicate with my users. It provides nine highly customizable animation types to display and dismiss text to that end.
+MFLHintLabel is the product of trying to find a playful, simple, reusable and unique way to communicate with users. It provides nine highly customizable animation types to display and dismiss text, all based on manipulating the individual characters.
 
-Primarily, this was built as a reusable tool for helping to onboard a new user to an app, something eye catching, but informative. It can be used to explain the flow of an application, a subtle control/feature, or convey the result of an interaction to your user. 
+#Video Examples
 
-By making use of original design assets, subviews, clipping, and positioning, this could be used to create incredibly eye popping and entirely unique dialogues for your users. Almost all properties of a UILabel are supported by accessing the internal properties of MFLHintLabel.
+Actual app integration in MapCraft
+http://www.youtube.com/watch?v=PN5uaTX8X0Q
 
-By setting up the properties of the MFLHintLabel, all these problems are handled for you:
-
- - Alignment and Width is calculated dynamically
- - View hierarchy is constructed and cleaned up on demand
- - Intro animation, display time, and outro animation are all tailored to your needs
- - Further customization is provided in the form of one sided animations that allow you to animate on screen, display for a time and animate offscreen all in separate animations.
+Sample App included here
+http://www.youtube.com/watch?v=puE_riiUuuk
 
 Animations Include:
 
@@ -99,4 +96,9 @@ You may run your animation with a completion block like so:
                          otherButtonTitles:nil] show];
     }];
 
-Beerware License
+LICENSE
+==========
+
+This repo is under the BeerWare License, but if you feel like this saved you some time, feel free to pay for the repo at Binpress.com
+
+http://www.binpress.com/app/mflhintlabel-animated-character-label/1333
