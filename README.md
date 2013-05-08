@@ -28,11 +28,11 @@ The sample project contains examples of all nine animations. If you want to leap
 
 ##Integration
 
- 1. Include libMFLAnimatedLabel.a file and header files in your project.
+ 1. Include the files in MFLHintLabel subfolder in your project
 
- 2. Make sure your header search paths are pointing to the folder you included libMFLAnimatedLabel.a in.
-
- 3. Ensure you're including the CoreText, CoreGraphics, and QuartzCore frameworks in your project.
+ 2. Ensure you're including the CoreText, CoreGraphics, and QuartzCore frameworks in your project.
+ 
+ 3. Go go go text animations.
 
 ##How-To Long Form
 
