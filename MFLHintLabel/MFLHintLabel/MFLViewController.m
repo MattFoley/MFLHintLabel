@@ -322,6 +322,44 @@
 }
 
 
+- (IBAction)attributedStringTest:(id)sender
+{
+    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:@"The quick brown fox jumps over the lazy dog"];
+    [as addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(0, 13)];
+    [as addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:24] range:NSMakeRange(13, 13)];
+    [as addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:32] range:NSMakeRange(26, as.length-26)];
+    
+    [self.hintAnimation stop];
+    
+    self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForAttributedText:as
+                                                              beginningAt:CGPointMake(40, -250)
+                                                             displayingAt:CGPointMake(20, self.view.center.y)
+                                                                 endingAt:CGPointMake(40, self.view.frame.size.height+200)
+                                                             inTargetView:self.view];
+    [self.hintAnimation setAnimateOnType:kMFLAnimateOnLinear];
+    [self.hintAnimation setAnimateOffType:kMFLAnimateImplodeStill];
+    
+    [self.hintAnimation setImplodeWithinFrame:self.view.frame];
+    
+    [self.hintAnimation setPhaseDelayTimeIn:.05];
+    [self.hintAnimation setPhaseDelayTimeOut:.05];
+    
+    [self.hintAnimation setCharactersToMoveSimultaneouslyIn:3];
+    [self.hintAnimation setCharactersToMoveSimultaneouslyOut:5];
+    
+    [self.hintAnimation prepareToRun];
+    
+    [self.hintAnimation runWithCompletion:^{
+        [[[UIAlertView alloc]initWithTitle:@"Completed"
+                                   message:@"This was fired from the completion block"
+                                  delegate:nil
+                         cancelButtonTitle:@"Cool!"
+                         otherButtonTitles:nil] show];
+    }];
+    
+    
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

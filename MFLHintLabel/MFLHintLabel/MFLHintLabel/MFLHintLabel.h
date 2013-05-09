@@ -33,6 +33,8 @@ typedef enum {
 
 #warning Set these properties before calling prepareToRun
 @property (nonatomic, strong) NSString *stringToDisplay;
+@property (nonatomic, strong) NSAttributedString *attributedStringToDisplay;
+
 @property (nonatomic, strong) NSMutableArray *labelArray;
 
 
@@ -110,6 +112,12 @@ typedef enum {
                                 displayingAt:(CGPoint)displayPoint
                                     endingAt:(CGPoint)endPoint
                                 inTargetView:(UIView*)view;
+
+- (MFLHintLabel *)createHintAnimationForAttributedText:(NSAttributedString*)text
+                                           beginningAt:(CGPoint)startPoint
+                                          displayingAt:(CGPoint)displayPoint
+                                              endingAt:(CGPoint)endPoint
+                                          inTargetView:(UIView*)view;
 
 - (MFLHintLabel *)createHintAnimationForLabel:(UILabel*)label
                                   beginningAt:(CGPoint)startPoint

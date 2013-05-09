@@ -60,10 +60,16 @@
                                      endingAt:(CGPoint)endPoint
                                  inTargetView:(UIView*)view
 {
+    
     id animation = [self init];
     
     _font = label.font;
-    _stringToDisplay = label.text;
+    if (label.attributedText) {
+        _attributedStringToDisplay = label.attributedText;
+    } else {
+        _stringToDisplay = label.text;
+    }
+    
     _alignment = label.textAlignment;
     
     _startPosition = startPoint;
@@ -78,6 +84,28 @@
     
     return animation;
 }
+
+- (MFLHintLabel *)createHintAnimationForAttributedText:(NSAttributedString*)text
+                                           beginningAt:(CGPoint)startPoint
+                                          displayingAt:(CGPoint)displayPoint
+                                              endingAt:(CGPoint)endPoint
+                                          inTargetView:(UIView*)view
+{
+    id animation = [self init];
+    _attributedStringToDisplay = text;
+    
+    _startPosition = startPoint;
+    _displayPosition = displayPoint;
+    _endPosition = endPoint;
+    _targetView = view;
+    
+    _alignment = NSTextAlignmentCenter;
+    _textColor = [UIColor blackColor];
+    [self setDefaultProperties];
+    
+    return animation;
+}
+
 
 - (void)setDefaultProperties
 {
@@ -103,10 +131,20 @@
     UILabel *testLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.widthConstraint, 250)];
     [testLabel setTextAlignment:self.alignment];
     [testLabel setFont:self.font];
-    [testLabel setText:self.stringToDisplay];
-    _lineArray = [testLabel linesForWidth:self.widthConstraint];
+    if (self.attributedStringToDisplay) {
+        [testLabel setAttributedText:self.attributedStringToDisplay];
+    }else{
+        [testLabel setText:self.stringToDisplay];
+    }
     
-    [self createLabels];
+    self.lineArray = [testLabel linesForWidth:self.widthConstraint];
+    
+    if ([self.lineArray[0] isKindOfClass:[NSAttributedString class]]) {
+        [self constructAttributedLabels];
+    } else {
+        [self createStringLabels];
+    }
+
     
 }
 
@@ -144,14 +182,13 @@
     [self run];
 }
 
-- (void)createLabels
+- (void)createStringLabels
 {
-    
     CGFloat xOffset = self.startPosition.x;
     CGFloat yOffset = self.startPosition.y;
     self.labelArray = [@[] mutableCopy];
     
-    for (NSString *line in self.lineArray) {
+    for (NSString* line in self.lineArray) {
         NSMutableArray *lineLabels = [@[] mutableCopy];
         
         if (self.alignment == NSTextAlignmentCenter) {
@@ -189,6 +226,50 @@
         yOffset += self.font.pointSize + self.tweakLineheight;
     }
 }
+
+- (void)constructAttributedLabels
+{
+    CGFloat xOffset = self.startPosition.x;
+    CGFloat yOffset = self.startPosition.y;
+    self.labelArray = [@[] mutableCopy];
+    
+    for (NSAttributedString* line in self.lineArray) {
+        NSMutableArray *lineLabels = [@[] mutableCopy];
+        
+        if (self.alignment == NSTextAlignmentCenter) {
+            CGSize lineSize = line.size;
+            xOffset = self.startPosition.x + ((self.widthConstraint - lineSize.width)/2) ;
+        }else{
+            xOffset = self.startPosition.x;
+        }
+        
+        for (int i = 0; i < line.length; i++) {
+
+            NSAttributedString*character = [line attributedSubstringFromRange:NSMakeRange(i, 1)];
+            CGSize characterSize = character.size;
+            
+            UILabel *characterLabel = [[UILabel alloc]initWithFrame:CGRectMake(xOffset,
+                                                                               yOffset,
+                                                                               characterSize.width,
+                                                                               characterSize.height)];
+            
+            [characterLabel setBackgroundColor:[UIColor clearColor]];
+            [characterLabel setAttributedText:character];
+            [lineLabels addObject:characterLabel];
+            [self.targetView addSubview:characterLabel];
+            
+            if (self.shouldFade) {
+                characterLabel.alpha = 0;
+            }
+            
+            xOffset += characterSize.width + self.tweakKerning;
+        }
+        
+        [self.labelArray addObject:lineLabels];
+        yOffset += line.size.height + self.tweakLineheight;
+    }
+}
+
 
 #pragma mark Animation Methods
 
@@ -362,7 +443,13 @@
         
         for (UILabel *character in line) {
             
-            CGSize characterSize = [character.text sizeWithFont:self.font];
+            CGSize characterSize;
+            if (character.attributedText) {
+                characterSize = character.attributedText.size;
+            }else{
+                characterSize = [character.text sizeWithFont:self.font];
+            }
+            
             
             [UIView animateWithDuration:self.duration delay:.3 options:self.options animations:^{
                 character.frame = CGRectMake(xOffset,
@@ -691,9 +778,14 @@
                                                                       character.frame.size.height)];
             [trail setCenter:point];
             
-            [trail setText:character.text];
-            [trail setTextColor:character.textColor];
-            [trail setFont:character.font];
+            if (character.attributedText) {
+                [trail setAttributedText:character.attributedText];
+            } else {
+                [trail setText:character.text];
+                [trail setTextColor:character.textColor];
+                [trail setFont:character.font];
+            }
+
             [trail setBackgroundColor:[UIColor clearColor]];
             [trailArray addObject:trail];
             
@@ -802,9 +894,14 @@
                                                                       character.frame.size.height)];
             [trail setCenter:point];
             
-            [trail setText:character.text];
-            [trail setTextColor:character.textColor];
-            [trail setFont:character.font];
+            if (character.attributedText) {
+                [trail setAttributedText:character.attributedText];
+            } else {
+                [trail setText:character.text];
+                [trail setTextColor:character.textColor];
+                [trail setFont:character.font];
+            }
+            
             [trail setBackgroundColor:[UIColor clearColor]];
             [trailArray addObject:trail];
             

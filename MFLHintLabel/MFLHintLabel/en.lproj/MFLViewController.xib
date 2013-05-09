@@ -121,6 +121,29 @@
 						<reference key="IBUIFontDescription" ref="604793775"/>
 						<reference key="IBUIFont" ref="1031678221"/>
 					</object>
+					<object class="IBUIButton" id="361286904">
+						<reference key="NSNextResponder" ref="774585933"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{12, 181}, {90, 30}}</string>
+						<reference key="NSSuperview" ref="774585933"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<string key="IBUINormalTitle">Attributed</string>
+						<reference key="IBUIHighlightedTitleColor" ref="554446740"/>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MQA</bytes>
+							<reference key="NSCustomColorSpace" ref="217398414"/>
+						</object>
+						<reference key="IBUINormalTitleShadowColor" ref="235045675"/>
+						<reference key="IBUIFontDescription" ref="604793775"/>
+						<reference key="IBUIFont" ref="1031678221"/>
+					</object>
 					<object class="IBUIButton" id="272873383">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
@@ -151,7 +174,7 @@
 						<string key="NSFrame">{{217, 143}, {90, 30}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="361286904"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -478,6 +501,16 @@
 					<int key="connectionID">222</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
+						<string key="label">buttons</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="361286904"/>
+						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
+						<bool key="addsContentToExistingCollection">NO</bool>
+					</object>
+					<int key="connectionID">227</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">fireCurve:</string>
 						<reference key="source" ref="836888206"/>
@@ -585,6 +618,15 @@
 					</object>
 					<int key="connectionID">223</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">attributedStringTest:</string>
+						<reference key="source" ref="361286904"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">226</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -621,6 +663,7 @@
 							<reference ref="319325139"/>
 							<reference ref="272873383"/>
 							<reference ref="163973234"/>
+							<reference ref="361286904"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -704,6 +747,12 @@
 						<reference key="parent" ref="774585933"/>
 						<string key="objectName">End w/ Block</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">224</int>
+						<reference key="object" ref="361286904"/>
+						<reference key="parent" ref="774585933"/>
+						<string key="objectName">Attributed</string>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -718,6 +767,7 @@
 				<string key="210.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="212.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="220.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="224.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="55.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -729,7 +779,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">223</int>
+			<int key="maxID">227</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -738,20 +788,38 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="animateOffAnimation:">id</string>
+						<string key="animateOnAnimation:">id</string>
+						<string key="attributedStringTest:">id</string>
 						<string key="fireCurve:">id</string>
+						<string key="fireExplode:">id</string>
 						<string key="fireImplode:">id</string>
 						<string key="fireImplodeFactorStill:">id</string>
 						<string key="fireImplodeFrameStill:">id</string>
+						<string key="fireLinear:">id</string>
 						<string key="fireRandomCurve:">id</string>
 						<string key="fireRandomSolitare:">id</string>
+						<string key="fireSolitare:">id</string>
+						<string key="runWithCompletionBlock:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="animateOffAnimation:">
 							<string key="name">animateOffAnimation:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="animateOnAnimation:">
+							<string key="name">animateOnAnimation:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="attributedStringTest:">
+							<string key="name">attributedStringTest:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="fireCurve:">
 							<string key="name">fireCurve:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="fireExplode:">
+							<string key="name">fireExplode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="fireImplode:">
@@ -766,12 +834,24 @@
 							<string key="name">fireImplodeFrameStill:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="fireLinear:">
+							<string key="name">fireLinear:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="fireRandomCurve:">
 							<string key="name">fireRandomCurve:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="fireRandomSolitare:">
 							<string key="name">fireRandomSolitare:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="fireSolitare:">
+							<string key="name">fireSolitare:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="runWithCompletionBlock:">
+							<string key="name">runWithCompletionBlock:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

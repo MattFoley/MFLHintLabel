@@ -15,13 +15,20 @@
 
 - (NSArray*) linesForWidth:(CGFloat)width
 {
-    NSString *text = self.text;
+    
     UIFont   *font = self.font;
     CGRect    rect = self.frame;
     
-    CTFontRef myFont = CTFontCreateWithName((__bridge CFStringRef)([font fontName]), [font pointSize], NULL);
-    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:text];
-    [attStr addAttribute:(NSString *)kCTFontAttributeName value:(__bridge id)myFont range:NSMakeRange(0, attStr.length)];
+    NSMutableAttributedString *attStr;
+    if (self.attributedText) {
+        attStr = [self.attributedText mutableCopy];
+    } else {
+        attStr = [[NSMutableAttributedString alloc] initWithString:self.text];
+        CTFontRef myFont = CTFontCreateWithName((__bridge CFStringRef)([font fontName]), [font pointSize], NULL);
+        [attStr addAttribute:(NSString *)kCTFontAttributeName
+                       value:(__bridge id)myFont
+                       range:NSMakeRange(0, attStr.length)];
+    }
     
     
     CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attStr);
@@ -34,14 +41,25 @@
     NSArray *lines = (__bridge NSArray *)CTFrameGetLines(frame);
     NSMutableArray *linesArray = [[NSMutableArray alloc]init];
     
-    for (id line in lines)
-    {
-        CTLineRef lineRef = (__bridge CTLineRef )line;
-        CFRange lineRange = CTLineGetStringRange(lineRef);
-        NSRange range = NSMakeRange(lineRange.location, lineRange.length);
-        
-        NSString *lineString = [text substringWithRange:range];
-        [linesArray addObject:lineString];
+    if (self.attributedText) {
+        for (id line in lines)
+        {
+            CTLineRef lineRef = (__bridge CTLineRef )line;
+            CFRange lineRange = CTLineGetStringRange(lineRef);
+            NSRange range = NSMakeRange(lineRange.location, lineRange.length);
+            NSAttributedString *lineString = [self.attributedText attributedSubstringFromRange:range];
+            [linesArray addObject:lineString];
+        }
+    }else{
+        for (id line in lines)
+        {
+            CTLineRef lineRef = (__bridge CTLineRef )line;
+            CFRange lineRange = CTLineGetStringRange(lineRef);
+            NSRange range = NSMakeRange(lineRange.location, lineRange.length);
+            
+            NSString *lineString = [self.text substringWithRange:range];
+            [linesArray addObject:lineString];
+        }
     }
     
     return (NSArray *)linesArray;
