@@ -55,6 +55,7 @@ This allows you to pass in an already created label:
                                      displayingAt:(CGPoint)displayPoint
                                          endingAt:(CGPoint)endPoint
                                      inTargetView:(UIView*)view;
+                                     
 
 Your target view is the view you want your animation to display in.
 
@@ -65,6 +66,28 @@ Your display point is where your animation will display at, this is also the end
 Your endpoint is the position your label will animate out to after displaying if applicable to the animate out type you set.
 
 ### Notes
+
+#### Attributed Strings
+
+MFLHintLabel now supports NSAttributedString, TTTAttributedLabel and OHAttributedLabel as well as UILabels with their attributedText property set.
+
+Use this call to pass in an attributedString.
+
+    - (MFLHintLabel *)createHintAnimationForAttributedText:(NSAttributedString*)text
+                                               beginningAt:(CGPoint)startPoint
+                                              displayingAt:(CGPoint)displayPoint
+                                                  endingAt:(CGPoint)endPoint
+                                              inTargetView:(UIView*)view
+                                              
+MFLHintLabel creation from a label will prefer loading attributedText over text, if both properties are set. To use an OHAttributedLabel or a TTTAttributedLabel simply cast it as a UILabel, and since all three have an "attributedText" property, it should all work out fine.
+
+    - (MFLHintLabel *)createHintAnimationForLabel:(UILabel*)label
+                                      beginningAt:(CGPoint)startPoint
+                                     displayingAt:(CGPoint)displayPoint
+                                         endingAt:(CGPoint)endPoint
+                                     inTargetView:(UIView*)view;
+                                     
+                                     
 
 ##### Displaying without running
 Be sure to call prepareToRun after you finish setting up your MFLHintLabel. This will create the structure for your animation, add it to the targetView view hierarchy and ready it to be run. Call this if you want to show your animation at it's startPosition for some time before running the animation.
