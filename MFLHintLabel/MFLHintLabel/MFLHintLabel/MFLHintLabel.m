@@ -144,7 +144,7 @@
     } else {
         [self createStringLabels];
     }
-
+    
     
 }
 
@@ -244,7 +244,7 @@
         }
         
         for (int i = 0; i < line.length; i++) {
-
+            
             NSAttributedString*character = [line attributedSubstringFromRange:NSMakeRange(i, 1)];
             CGSize characterSize = character.size;
             
@@ -435,7 +435,12 @@
         NSString *lineText = [self.lineArray objectAtIndex:i];
         
         if (self.alignment == NSTextAlignmentCenter) {
-            CGSize lineSize = [lineText sizeWithFont:self.font];
+            CGSize lineSize;
+            if ([lineText isKindOfClass:[NSAttributedString class]]) {
+                lineSize = [(NSAttributedString *)lineText size];
+            } else {
+                lineSize = [lineText sizeWithFont:self.font];
+            }
             xOffset = self.displayPosition.x + ((self.widthConstraint - lineSize.width)/2) ;
         }else{
             xOffset = self.displayPosition.x;
@@ -785,7 +790,7 @@
                 [trail setTextColor:character.textColor];
                 [trail setFont:character.font];
             }
-
+            
             [trail setBackgroundColor:[UIColor clearColor]];
             [trailArray addObject:trail];
             
@@ -1005,7 +1010,7 @@
         {
             waitTime = 0;
         }
-        
+            
         default:
             break;
     }
@@ -1021,7 +1026,7 @@
 }
 
 - (void)cleanAndRemoveAnimation
-{    
+{
     self.targetView = nil;
     
     for (NSMutableArray*array in self.labelArray) {

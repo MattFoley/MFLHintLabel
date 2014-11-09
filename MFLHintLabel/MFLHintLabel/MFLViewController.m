@@ -77,7 +77,7 @@
 {
     [self.hintAnimation stop];
     self.hintAnimation = [[MFLHintLabel alloc] createHintAnimationForText:@"The quick brown fox jumps over the lazy dog"
-                                                                 withFont:[UIFont mapCraftHeaderWithSize:20]
+                                                                 withFont:[UIFont mapCraftDetailWithSize:20]
                                                               beginningAt:CGPointMake(40, -200)
                                                              displayingAt:CGPointMake(20, self.view.center.y)
                                                                  endingAt:CGPointMake(40, self.view.frame.size.height+200)

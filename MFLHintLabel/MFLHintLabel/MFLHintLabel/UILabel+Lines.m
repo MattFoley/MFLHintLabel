@@ -22,6 +22,9 @@
     NSMutableAttributedString *attStr;
     if (self.attributedText) {
         attStr = [self.attributedText mutableCopy];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        [attStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [attStr length])];
     } else {
         attStr = [[NSMutableAttributedString alloc] initWithString:self.text];
         CTFontRef myFont = CTFontCreateWithName((__bridge CFStringRef)([font fontName]), [font pointSize], NULL);
