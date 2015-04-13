@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "THLabel.h"
+
 #warning This class only works for UILineBreakWordWrapping or NSLineBreakByWordWrapping
 #warning This class only works for alignments left/center
 
@@ -32,69 +34,72 @@ typedef enum {
 
 
 #warning Set these properties before calling prepareToRun
-@property (nonatomic, strong) NSString *stringToDisplay;
-@property (nonatomic, strong) NSAttributedString *attributedStringToDisplay;
+@property NSString *stringToDisplay;
+@property NSAttributedString *attributedStringToDisplay;
 
-@property (nonatomic, strong) NSMutableArray *labelArray;
+//Modifies the frame of the string, helps with drawing unusual fonts and THLabels.
+@property UIEdgeInsets characterFrameInsets;
+
+@property NSMutableArray *labelArray;
 
 
-@property (nonatomic, strong) UIFont *font;
-@property (nonatomic, strong) UIColor *textColor;
+@property UIFont *font;
+@property UIColor *textColor;
 
 //Length of time to display at rest.
-@property (nonatomic, assign) CGFloat displayTime;
+@property CGFloat displayTime;
 
 //Length of animation sequences (This is approximate, some will last longer due to staggering)
-@property (nonatomic, assign) CGFloat duration;
+@property CGFloat duration;
 
 //Where applicable, these will be used
-@property (nonatomic, assign) UIViewAnimationOptions options;
+@property UIViewAnimationOptions options;
 
-@property (nonatomic, assign) CGPoint startPosition; //Position to start from
-@property (nonatomic, assign) CGPoint displayPosition; //Position to display at
-@property (nonatomic, assign) CGPoint endPosition; //Position to animate to finish.
+@property CGPoint startPosition; //Position to start from
+@property CGPoint displayPosition; //Position to display at
+@property CGPoint endPosition; //Position to animate to finish.
 
-@property (nonatomic, assign) CGFloat widthConstraint; //Width of your text
+@property CGFloat widthConstraint; //Width of your text
 
 //Characters to move simulatenously per phase. Set to length of your text to move all at once.
-@property (nonatomic, assign) NSInteger charactersToMoveSimultaneouslyIn;
-@property (nonatomic, assign) NSInteger charactersToMoveSimultaneouslyOut;
+@property NSInteger charactersToMoveSimultaneouslyIn;
+@property NSInteger charactersToMoveSimultaneouslyOut;
 
 //Delay time in between phases
-@property (nonatomic, assign) CGFloat phaseDelayTimeIn;
-@property (nonatomic, assign) CGFloat phaseDelayTimeOut;
+@property CGFloat phaseDelayTimeIn;
+@property CGFloat phaseDelayTimeOut;
 
 
 //If your custom font does not properly encode it's lineheight, use this to tweak it. Defaults to 0
 //Negative numbers bring lines closer together, positive numbers move them further apart.
-@property (nonatomic, assign) CGFloat tweakLineheight;
+@property CGFloat tweakLineheight;
 
 //If your custom font does not properly encode it's kerning, use this to tweak it. Defaults to 0
 //Negative numbers bring letters closer together, positive numbers move them further apart.
-@property (nonatomic, assign) CGFloat tweakKerning;
+@property CGFloat tweakKerning;
 
-@property (nonatomic, assign) NSTextAlignment alignment;
-@property (nonatomic, assign) kMFLAnimateOnType animateOnType;
-@property (nonatomic, assign) kMFLAnimateOffType animateOffType;
+@property NSTextAlignment alignment;
+@property kMFLAnimateOnType animateOnType;
+@property kMFLAnimateOffType animateOffType;
 
 //Where applicable, will apply opacity animation in/out.
-@property (nonatomic, assign) BOOL shouldFadeIn;
-@property (nonatomic, assign) BOOL shouldFadeOut;
+@property BOOL shouldFadeIn;
+@property BOOL shouldFadeOut;
 
 #pragma mark Solitare Animations Only
 //Lower numbers mean more trails. Defaults to 10
-@property (nonatomic, assign) CGFloat solitareTrailLength;
+@property CGFloat solitareTrailLength;
 //Time before trail fades.  Defaults to .1
-@property (nonatomic, assign) CGFloat solitareTrailDuration;
+@property CGFloat solitareTrailDuration;
 
 //Higher numbers, more random. Defaults to 12
-@property (nonatomic, assign) CGFloat randomizationFactor;
+@property CGFloat randomizationFactor;
 
 #pragma mark Implode Still Only
 //This multiplies the labels frame size and implodes within that frame - defaults to 1, the frame of the label.
-@property (nonatomic, assign) CGFloat implodeFrameFactor;
+@property CGFloat implodeFrameFactor;
 //Or set this
-@property (nonatomic, assign) CGRect implodeWithinFrame;
+@property CGRect implodeWithinFrame;
 
 - (void)runWithCompletion:(void (^)())animEndsBlock;
 
@@ -105,6 +110,13 @@ typedef enum {
 
 
 - (void)cleanAndRemoveAnimation;
+
+- (MFLHintLabel *)initHintAnimationForTHLabel:(THLabel *)label
+                                  beginningAt:(CGPoint)startPoint
+                                 displayingAt:(CGPoint)displayPoint
+                                     endingAt:(CGPoint)endPoint
+                                 inTargetView:(UIView *)view
+                                 isAttributed:(BOOL)attributed;
 
 - (MFLHintLabel *)createHintAnimationForText:(NSString*)text
                                     withFont:(UIFont*)font

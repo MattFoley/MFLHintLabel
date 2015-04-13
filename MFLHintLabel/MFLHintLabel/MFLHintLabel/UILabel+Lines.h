@@ -10,6 +10,6 @@
 
 @interface UILabel (Lines)
 
-- (NSArray*) linesForWidth:(CGFloat)width;
+- (NSArray *)linesForWidth:(CGFloat)width isAttributed:(BOOL)isAttributed;
 
 @end

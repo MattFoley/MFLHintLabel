@@ -1,0 +1,3 @@
+[submodule "MFLHintLabel/MFLHintLabel/MFLHintLabel/THLabel"]
+	path = MFLHintLabel/MFLHintLabel/MFLHintLabel/THLabel
+	url = git@github.com:MuscleRumble/THLabel.git

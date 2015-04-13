@@ -13,14 +13,14 @@
 
 @implementation UILabel (Lines)
 
-- (NSArray*) linesForWidth:(CGFloat)width
+- (NSArray *)linesForWidth:(CGFloat)width isAttributed:(BOOL)isAttributed
 {
     
     UIFont   *font = self.font;
     CGRect    rect = self.frame;
     
     NSMutableAttributedString *attStr;
-    if (self.attributedText) {
+    if (isAttributed) {
         attStr = [self.attributedText mutableCopy];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -44,7 +44,7 @@
     NSArray *lines = (__bridge NSArray *)CTFrameGetLines(frame);
     NSMutableArray *linesArray = [[NSMutableArray alloc]init];
     
-    if (self.attributedText) {
+    if (isAttributed) {
         for (id line in lines)
         {
             CTLineRef lineRef = (__bridge CTLineRef )line;
